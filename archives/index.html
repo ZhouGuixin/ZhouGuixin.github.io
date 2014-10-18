@@ -86,7 +86,7 @@
   <div class="post-content">
     <header>
       
-        <time datetime="2014-10-18T20:14:48.000Z"><a href="/2014/10/19/hello-world/">10月 19 2014</a></time>
+        <time datetime="2014-10-18T21:40:52.000Z"><a href="/2014/10/19/hello-world/">10月 19 2014</a></time>
       
       
   
@@ -99,10 +99,36 @@
         <p>这是一篇 Hello World。</p>
 <p>现在时间是：2014年10月19日 凌晨4:07</p>
 <p>终于把博客搭起来了，趁着域名还没生效，花个十几分钟先写一篇博客。</p>
-<p>很久没研究东西了，今天有时间研究了一下<a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>，还是要感谢一下@王轲，还有@赵新新。后面有时间小小经营一下，即使不能表达自己的思想，不能分享技术，有空随手写点东西也是好的。作为一名程序猿猿猿，还是跟外界交流太少了，</p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
+<p>很久没研究东西了，今天有时间研究了一下<a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>，还是要感谢一下@王轲，还有@赵新新。后面有时间小小经营一下，即使不能宣扬自己的思想，不能分享那么牛的技术，有空随手写点东西也是好的。作为一名程序猿猿，还是跟外界交流太少了，长时间不说话，表达能力真的会变差。其实之前看一些哥们总是把自己的想法吐槽出来，倒也是一种锻炼口语表达能力的表现。</p>
+<p>忙到后半夜，然后研究Hexo到现在，很长时间没这样琢磨一个东西了（最近总加班），都有点怀疑自己的钻研技能有没有废掉，好吧，我还活着。</p>
+<p>趁热打铁，就简单写一下自己研究Hexo的过程（Mac平台下）：</p>
+<p>因为信用卡还没到手，没有买下自己的VPS，托管就暂时用了Github（免费，就是博客的代码开源了，想来到也没什么哈，都是静态的）。</p>
+<p>后面直接上链接：</p>
+<h2 id="Hexo_安装">Hexo 安装</h2>
+<p>参考：<a href="http://zipperary.com/2013/05/28/hexo-guide-2/" target="_blank" rel="external">hexo系列教程：（二）搭建hexo博客</a></p>
+<p>比较详细，大体是要安装Node.js，git，Hexo。Mac很方便，也就是几行命令的事情。</p>
+<h2 id="更换Hexo主题">更换Hexo主题</h2>
+<p>这里更换主题倒不是为了美观，主要是Hexo默认的主题引用了google的字体，非常非常非常非常非常非常非常非常慢！话说很早看王轲的博客的时候，打开速度很慢，我还以为是服务器在国外的原因。</p>
+<p>参考：<a href="http://ibruce.info/2013/12/03/fonts-googleapis-lead-to-slow/" target="_blank" rel="external">google字库导致hexo modernist首页加载变慢</a></p>
+<p>本来打算费点力气把google的这个问题解决一下，结果发现有的主题本身就很快，估计是没用到google的资源，这里我用的<a href="https://github.com/hustcer/hexo-theme-air" target="_blank" rel="external">Air</a></p>
+<p>Hexo主题：<a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="external">Themes hexojs/hexo</a></p>
+<h2 id="绑定域名">绑定域名</h2>
+<p>Github page已经分配了二级域名：<a href="http://zhouguixin.github.io/" target="_blank" rel="external">http://zhouguixin.github.io/</a>，当然，作为一名有强迫症的天蝎座，还是忍不住申请了个自己的域名，其实几个月前看zhouguixin.com还没被人申请的，就在前几天，发现被抢注了，下手晚了啊，而且，那个内容。。唉！</p>
+<p>不过还好，guixin.me这域名蛮好听大气的。域名是从<a href="http://www.west263.com" target="_blank" rel="external">西部数码</a>上申请的，域名解析也用的他。本来按照网上的教程要去DNSPod上配域名解析，后来发现西部数码上有域名解析，而且生效蛮快，就先不换了吧。</p>
+<p>参考：<a href="http://jingyan.baidu.com/article/3c343ff70fb6e60d3779632f.html" target="_blank" rel="external">怎样将域名绑定到github pages 博客上</a></p>
+<p>这里偷懒了，看到中文教程，其实Github上写的蛮清楚：<a href="https://help.github.com/categories/github-pages-basics/" target="_blank" rel="external">GitHub Pages Basics</a></p>
+<p>按照上述教程，还是没配成功，还以为是CNAME文件的问题，捣鼓了半天，自己就好了，事实证明配置完成和生效还是有时间差的，要耐心等待。</p>
+<h2 id="Markdown/Hexo">Markdown/Hexo</h2>
+<p>至于Hexo的使用，还是网上搜教程吧，这里我也没用几过个命令，基本上是配置好了，以后就用不了几个命令了（我是说它很方便的意思）。</p>
+<p>写博客的文本，用的Markdown，还是王轲教我的，学起来不算难吧，不过十来种语法，写出来的博客就挺美观了。编辑工具用的Mou，所见即所得，也很方便。</p>
+<p>不上教程了，自己查资料吧，边学边用就好，关键字：Markdown，Hexo。</p>
+<h2 id="写到最后">写到最后</h2>
+<p>好了，现在时间凌晨5:24，域名也生效了，第一次配域名。</p>
+<p>虽然这两天身上还有很多重要的事，还是忍不住通了个宵研究了点东西，因为感觉自己很长时间脑子没有转了，天天纠缠在分配事情、查bug、开会上，再这么下去脑子会锈的吧。正好今天打篮球闪着腰了，明天也不用早起去打球，好好赖床吧。O(∩_∩)O哈哈~</p>
+<p>等中午醒来再去西北旺村的公园溜达溜达，秋天来了，叶子金黄，看着蓝天白云，说不出的喜怒哀乐~</p>
+<p>下午刚提交的版本In Review了，还没审核通过，明早看结果。</p>
+<p>睡了</p>
+<p>早上好~</p>
 
       
     </div>
