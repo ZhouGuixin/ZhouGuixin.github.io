@@ -6,11 +6,11 @@
   <title>iOS开发笔记，简单实现视频音频的边下边播 | 我是飞翔的小鑫</title>
   <meta name="author" content="Zhou Guixin">
   
-  <meta name="description" content="此博客是一年前写的。
-再摘到这里，滥竽充数一下。
+  <meta name="description" content="2014-10-22
+此博客是一年前写的。再摘到这里，滥竽充数一下。
 
 总是在网上看别人的博文，受益匪浅，从没自己写过，今天分享一点小经验，第一次写技术博客，希望对同行的ios猿们有所帮助。
-先介绍一下自己的情况：一年ios开发，http协议不太懂，大约知道断点下载http请求头里的几个字段什么作用。（所以比我基础好的">
+先介绍一下自己的情况：一年ios开发，http协议不太懂，大约知道断点下载http请求头里的几个字段什么作用">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -86,27 +86,27 @@
     </header>
     <div class="entry">
       
-        <p>此博客是一年前写的。</p>
-<p>再摘到这里，滥竽充数一下。</p>
+        <p>2014-10-22</p>
+<p>此博客是一年前写的。再摘到这里，滥竽充数一下。</p>
 <hr>
 <p>总是在网上看别人的博文，受益匪浅，从没自己写过，今天分享一点小经验，第一次写技术博客，希望对同行的ios猿们有所帮助。</p>
 <p>先介绍一下自己的情况：一年ios开发，http协议不太懂，大约知道断点下载http请求头里的几个字段什么作用。（所以比我基础好的童鞋可以尽管放心的看我这篇博文）</p>
 <p>直接切入主题，要实现的功能是：1、ios视频音频边缓存边播放，缓存时可以在已下载的部分拖拽进度条。<br>2、缓存到一半退出，再次播放同一地址的视频时，视频继续下载，并且缓存进度已经走到上一次下载的位置。<br>3、无论是下载到一半退出还是下载完退出，已缓存的数据都存到自己指定的一个路径。如果已下载完，下次播放时可以不再走网络，直接播放本地文件。<br>4、一个有总时间，缓冲进度，播放进度的sliderbar。<br>（具体效果看唱吧4.1版本以后的视频效果吧）</p>
 <p>用到的几个类：<br>1、ASIHttpRequest<br>2、MPMoviePlayerController<br>3、<a href="https://github.com/robbiehanson/CocoaHTTPServer" target="_blank" rel="external">HTTPServer</a></p>
 <p>灵感来源是这篇文章，<a href="http://hi.baidu.com/suifeng_89/item/603cb0b95bb796ff62388e88" target="_blank" rel="external">http://hi.baidu.com/suifeng_89/item/603cb0b95bb796ff62388e88</a></p>
-<p>实现步骤：<br>1、先开一个request去下载要播放的视频文件<br>2、在本地开一个http server，拼一个本地地址（<a href="http://127.0.0.1:xxxx/xxx.mp4），丢给MPMoviePlayerController播放。" target="_blank" rel="external">http://127.0.0.1:xxxx/xxx.mp4），丢给MPMoviePlayerController播放。</a><br>3、本地的server当收到请求时去那个正在下载的文件中读数据即可。</p>
-<p>断点下载全由ASIHttpRequest实现了，缓冲的效果用的是MPMoviePlayerController的，它自带了总时间，已缓冲的总时间，当前时间，整个播放的过程就用MPMoviePlayerController。sliderbar是自己写的，因为iOS自带的不支持缓冲进度，例子：（<a href="https://github.com/Zedenem/UICircularSlider），把圆的改成长长的不难吧。。" target="_blank" rel="external">https://github.com/Zedenem/UICircularSlider），把圆的改成长长的不难吧。。</a></p>
+<p>实现步骤：<br>1、先开一个request去下载要播放的视频文件<br>2、在本地开一个http server，拼一个本地地址（ <a href="http://127.0.0.1:xxxx/xxx.mp4" target="_blank" rel="external">http://127.0.0.1:xxxx/xxx.mp4</a> ），丢给MPMoviePlayerController播放。<br>3、本地的server当收到请求时去那个正在下载的文件中读数据即可。</p>
+<p>断点下载全由ASIHttpRequest实现了，缓冲的效果用的是MPMoviePlayerController的，它自带了总时间，已缓冲的总时间，当前时间，整个播放的过程就用MPMoviePlayerController。sliderbar是自己写的，因为iOS自带的不支持缓冲进度，例子：（<a href="https://github.com/Zedenem/UICircularSlider" target="_blank" rel="external">https://github.com/Zedenem/UICircularSlider</a>），把圆的改成长长的不难吧。。</p>
 <p>自己曾尝试过在iOS上用socket server实现本地服务器，各种失败。后来查到MPMoviePlayerController的请求机制是基于http断点下载那一套逻辑的，不像android的socket。HTTPServer已经支持各种断点下载上传。<br>只是有一点需要自己实现：当httpserver接受到MPMoviePlayerController的请求时，server要先返回一个请求包含了整个视频文件的大小。然后MPMoviePlayerController才会不断请求本地的服务器取数据。我的实现是这样的。当要比方某个视频文件的时候，先开启一个request去下载，当收到文件总大小的时候，存到本地的一个dictionary中，request继续下载，然后打开localserver，拼一个本地url给player，让他自动播放。当localserver收到请求时，根据要请求的文件去本地读文件的实际大小，返回给player，然后player就可以播放了。</p>
 <p>HTTPServer自己已经实现了断点下载的逻辑，你可以给他设置一个DocumentRoot，进来的文件请求会直接到这个目录下读文件的数据，他默认的实现获得文件总大小的逻辑是直接用NSFileManager去取文件的总大小，而这里我们需要去自己存到本地的dictionary中读。</p>
 <p>大约思路就是这样，不想写太多东西，因为实际自己写的代码真的很少。还是留个思路，真正的实现由大家自己研究，总之实现起来挺简单的，最终效果也很好，大家各种放心就好了。</p>
 <p>后面遇到了几个问题小说一下<br>1、HTTPServer不支持iOS4，好像是用到了一个gcd相关的函数不支持，因为目前我们ios4的用户比较少了，ios7都出来了，就直接把ios4的用户抛弃了，这里也没有深究。<br>2、MPMoviePlayerController是直接可以播放mp3的，因为我们还需要播放音频，而且是同一个页面，如果全用MPMoviePlayerController是最好的，因为不需要切换播放器，虽然看起来有点拙。但后来发现点问题，就是播放音频的时候，有的mp3不能拖拽，当你更改音频的播放时间的时候，MPMoviePlayerController直接停止了，但有的音频是可以的，最后研究好像是mp3码率或者格式的问题，因为我们已经有很多mp3了，再替换之前的mp3不太现实，最后的实现就是音频用avplayer播，缓冲进度用MPMoviePlayerController的，你可以想象代码写的多么脏。。如果大家只做视频或者刚开始做的话，最好把这个问题研究一下，这里我也没有深究。</p>
 <p>好了就到这里，总之实现起来比较简单，之前在android上就听说过这样的实现，只是没有发现ios上能直接播网络音频的播放器，网上的demo也比较少，所以当自己研究出来的时候就比较迫切的给大家分享出来。希望能给大家带来帮助，也希望会有更好的实现方案出来。有问题给我留言或@我的微博~</p>
 <hr>
-<p>因为一直很忙，没有时间做demo，这里有一童鞋写的代码，可以先研究一下，欢迎加好友交流<br><a href="http://code4app.com/ios/5292c381cb7e8445678b5ac2" target="_blank" rel="external">http://code4app.com/ios/5292c381cb7e8445678b5ac2</a></p>
 <p>2014-2-19</p>
+<p>因为一直很忙，没有时间做demo，这里有一童鞋写的代码，可以先研究一下，欢迎加好友交流<br><a href="http://code4app.com/ios/5292c381cb7e8445678b5ac2" target="_blank" rel="external">http://code4app.com/ios/5292c381cb7e8445678b5ac2</a></p>
 <hr>
-<p>还是修复几个问题，之前说的音频，用MPMoviePlayerController确实不合适，不过目前想到的，还有好几种方法能实现音频的边下边播，比如用AVPlayer实现上面所说相同的功能，比如，用AudioQueue来实现边下边播，都是可以研究的。</p>
 <p>2014-10-22</p>
+<p>还是修复几个问题，之前说的音频，用MPMoviePlayerController确实不合适，不过目前想到的，还有好几种方法能实现音频的边下边播，比如用AVPlayer实现上面所说相同的功能，比如，用AudioQueue来实现边下边播，都是可以研究的。</p>
 
       
     </div>
